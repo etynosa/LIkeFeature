@@ -18,7 +18,7 @@ COPY . /source
 
 WORKDIR /source
 
-# This is the architecture youâ€™re building for, which is passed in by the builder.
+# This is the architecture you’re building for, which is passed in by the builder.
 # Placing it here allows the previous steps to be cached across architectures.
 ARG TARGETARCH
 
@@ -47,6 +47,9 @@ WORKDIR /app
 
 # Copy everything needed to run the app from the "build" stage.
 COPY --from=build /app .
+
+RUN mkdir -p /app/Data \
+    && chown -R 10001:10001 /app/Data
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/

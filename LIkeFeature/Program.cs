@@ -18,10 +18,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+var dataDirectory = Path.Combine(builder.Environment.ContentRootPath, "Data");
+if (!Directory.Exists(dataDirectory))
+{
+    Directory.CreateDirectory(dataDirectory);
+}
 
 var dbPath = Path.Join(builder.Environment.ContentRootPath, "Data", "articles.db");
 builder.Services.AddDbContext<ArticleDbContext>(options =>
-    options.UseSqlite($"Data Source={dbPath}"));
+    options.UseSqlite($"Data Source={dbPath};Mode=ReadWriteCreate;"));
 
 builder.Services.AddMemoryCache();
 
